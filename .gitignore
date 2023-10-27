@@ -1,0 +1,9 @@
+
+venv*
+*.pyc
+
+# local config
+config/config.py
+
+# OSX
+.DS_Store
