@@ -6,14 +6,16 @@ from config import config as c
 def main():
     rpc_connection = AuthServiceProxy("http://%s:%s@127.0.0.1:8332"%(c.rpc_user, c.rpc_password))
 
-    mempool_info = rpc_connection.getmempoolinfo()
-    mempool_info_loaded = mempool_info['loaded']
-    #print(f'{mempool_info=} {type(mempool_info)=}')
-    #print(f'{mempool_info=} {type(mempool_info)=}')
-    if mempool_info_loaded is False:
-        print('Still waiting to load mempool after restart of bitcoin-core')
-        print(f'{mempool_info=} {type(mempool_info)=}')
-        exit()
+    while True:
+        mempool_info = rpc_connection.getmempoolinfo()
+        mempool_info_loaded = mempool_info['loaded']
+
+        if mempool_info_loaded is False:
+            print('Still waiting to load mempool after restart of bitcoin-core')
+            print(f'{mempool_info=} {type(mempool_info)=}')
+            time.sleep(25)  # check again in 25 seconds 
+        else:
+            break   # go to next step
 
     previous_txids = set()
     while True:
