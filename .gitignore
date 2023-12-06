@@ -9,3 +9,7 @@ config/config.py
 
 # OSX
 .DS_Store
+
+# local settings 
+.vscode/settings.json
+

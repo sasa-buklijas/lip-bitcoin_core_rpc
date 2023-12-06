@@ -3,13 +3,13 @@ import struct
 import platform
 import os
 import time
-#from datetime import datetime, UTC
 import datetime as dt
 from bitcoinrpc.authproxy import AuthServiceProxy
 from config import config as c
 
 
 def main():
+    print(f'{os.getpid()=}')
     my_os = platform.system()
 
     context = zmq.Context()
@@ -21,7 +21,7 @@ def main():
     print("Subscribed to pubhashblock messages. Waiting for messages...")
     previous_block_time = None
     while True:
-        topic, body, seq = socket.recv_multipart()
+        topic, body, seq = socket.recv_multipart()  # blocking, until something(pubhashblock) is in ZeroMQ
         current_time = time.time()
         #print(f'{type(topic)=} {type(body)=} {type(seq)=}')
         #print(f'{topic=} {body=} {seq=}')
